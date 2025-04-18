@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum</title>
+    <title>Mini Forum - Topics</title>
 
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="{% static 'forum/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
@@ -40,6 +41,20 @@
             </div>
         </div>
     </header>
+    <header>
+        <h1>Mini Forum</h1>
+    </header>
+    <nav>
+        <a href="forums.html">Topics</a>
+        <a href="posts.html">My Posts</a>
+        <a href="create_topic.html">Create Topic</a>
+    </nav>
+    <main>
+        <h2>Topics</h2>
+        <div class="topic"><a href="detail.html?topic_id=1">How to learn Django?</a><br><small>by Alice</small></div>
+        <div class="topic"><a href="detail.html?topic_id=2">Best Python resources</a><br><small>by Bob</small></div>
+        <div class="topic"><a href="detail.html?topic_id=3">Deploying with PostgreSQL</a><br><small>by Charlie</small></div>
+    </main>
     <div class="container">
         <div class="subforum">
             <div class="subforum-title">
