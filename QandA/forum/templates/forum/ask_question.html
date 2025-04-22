@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question - Mini StackOverflow</title>
+    <link rel="stylesheet" href="{% static 'forum/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="/">Mini StackOverflow</a></h1>
+            <nav>
+                <a href="/">All Questions</a>
+                <a href="{% url 'ask_question' %}">Ask Question</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Ask a Question</h2>
+        <form method="post" action="{% url 'ask_question' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea name="content" id="content" rows="10" required></textarea>
+            </div>
+            <button type="submit">Post Your Question</button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Mini StackOverflow</p>
+        </div>
+    </footer>
+</body>
+</html>
