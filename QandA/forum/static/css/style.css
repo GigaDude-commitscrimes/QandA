@@ -1,0 +1,134 @@
+/* General Reset */
+:root {
+    color-scheme: light;
+}
+
+body, h1, h2, h3, p, ul, li, a, input, textarea, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f8f9f9;
+    color: #2d2d2d;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 960px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: #f48024;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #0077cc;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main h2, main h3 {
+    margin: 20px 0 10px;
+    color: #333;
+}
+
+.question-item, .answer-item {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.stats, .answer-votes, .question-votes {
+    width: 80px;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+
+.summary, .answer-content {
+    flex: 1;
+}
+
+.question-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0077cc;
+    text-decoration: none;
+}
+
+.question-title:hover {
+    text-decoration: underline;
+}
+
+.meta, .answer-meta, .question-meta {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.question-content {
+    padding: 10px 0;
+    font-size: 15px;
+}
+
+form textarea, form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+form button {
+    background-color: #0a95ff;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0077cc;
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+    border-top: 1px solid #ccc;
+    padding: 20px 0;
+    background: #f8f9f9;
+}
+
+.question-votes button, .answer-votes button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+}
+
+.question-votes button:hover, .answer-votes button:hover {
+    color: #f48024;
+}

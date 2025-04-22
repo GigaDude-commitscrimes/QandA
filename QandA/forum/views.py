@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Question
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     questions = Question.objects.all().order_by('-created_at')
@@ -12,3 +13,12 @@ def detail(request, pk):
 
 def posts(request):
     return render(request, 'forum/posts.html')
+
+@login_required
+def ask_question(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        Question.objects.create(title=title, content=content, author=request.user)
+        return redirect('index')
+    return render(request, 'forum/ask_question.html')

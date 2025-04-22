@@ -4,45 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum – Detail</title>
-    
-
-    <!-- Стили -->
-    <link rel="stylesheet" href="{% static 'forum/style.css' %}">
+    <title>{{ topic.title }} - Mini StackOverflow</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <h1>Topic Details</h1>
-    </header>
-    <main>
-        <h2>How to learn Django?</h2>
-        <p><strong>Author:</strong> Alice | <strong>Posted on:</strong> 2025-04-18</p>
-
-        <h3>Posts</h3>
-        <ul>
-            <li><strong>John:</strong> Start with the official tutorial.</li>
-            <li><strong>Mary:</strong> Don’t forget about the Django REST Framework!</li>
-            <li><strong>Alex:</strong> Practice building small projects.</li>
-        </ul>
-
-        <form action="submit_post.html" method="post">
-            <label for="content">Add a reply:</label><br>
-            <textarea id="content" name="content" rows="4"></textarea><br>
-            <input type="submit" value="Post">
-        </form>
-
-        <p><a href="forums.html">← Back to topics</a></p>
-    </main>
-    <header>
-        <!--NavBar Section-->
-        <div class="navbar">
-            <nav class="navigation hide" id="navigation">
-                <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="forums.html">Forums</a></li>
-                    <li class="nav-item"><a href="posts.html">Posts</a></li>
-                    <li class="nav-item"><a href="detail.html">Detail</a></li>
-                </ul>
+        <div class="container">
+            <h1><a href="/">Mini StackOverflow</a></h1>
+            <nav>
+                <a href="/">All Questions</a>
+                <a href="{% url 'ask_question' %}">Ask Question</a>
             </nav>
         </div>
     </header>
