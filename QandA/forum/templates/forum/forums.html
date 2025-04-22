@@ -22,15 +22,15 @@
     <main class="container">
         <h2>Top Questions</h2>
         <div class="questions-list">
-            {% for topic in topics %}
+            {% for question in questions %}
             <div class="question-item">
                 <div class="stats">
-                    <div>{{ topic.posts.count }} answers</div>
-                    <div>{{ topic.votes_count|default:0 }} votes</div>
+                    <div>0 answers</div>
+                    <div>0 votes</div>
                 </div>
                 <div class="summary">
-                    <a href="{% url 'topic_detail' topic.id %}" class="question-title">{{ topic.title }}</a>
-                    <div class="meta">Asked by {{ topic.author.username }} on {{ topic.created_at|date:"M d, Y" }}</div>
+                    <a href="#" class="question-title">{{ question.title }}</a>
+                    <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
                 </div>
             </div>
             {% empty %}

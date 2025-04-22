@@ -21,6 +21,10 @@
 
     <main class="container">
         <h2>Profile: {{ request.user.username }}</h2>
+        <p>Email: {{ request.user.email }}</p>
+        <p>Total Questions: {{ question_count }}</p>
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+
         <h3>Your Questions</h3>
         {% for question in user_questions %}
             <div class="question-item">
