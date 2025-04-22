@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'QandA',
         'USER': 'qanda_user',
         'PASSWORD': 'userpassword',
-        'HOST': '26.29.184.51',
+        'HOST': '193.186.4.84',
         'PORT': '5432',
     }
 }
