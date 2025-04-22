@@ -22,3 +22,10 @@ def ask_question(request):
         Question.objects.create(title=title, content=content, author=request.user)
         return redirect('index')
     return render(request, 'forum/ask_question.html')
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile(request):
+    user_questions = Question.objects.filter(author=request.user)
+    return render(request, 'forum/profile.html', {'user_questions': user_questions})
