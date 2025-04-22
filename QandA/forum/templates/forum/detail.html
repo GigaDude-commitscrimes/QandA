@@ -9,10 +9,7 @@
 
     <!-- Стили -->
     <link rel="stylesheet" href="{% static 'forum/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
 </head>
-
 <body>
     <header>
         <h1>Topic Details</h1>
@@ -47,127 +44,66 @@
                     <li class="nav-item"><a href="detail.html">Detail</a></li>
                 </ul>
             </nav>
-            <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
-            <div class="brand">My Forum</div>
         </div>
-        <!--SearchBox Section-->
-        <div class="search-box">
-            <div>
-                <select name="" id="">
-                    <option value="Everything">Everything</option>
-                    <option value="Titles">Titles</option>
-                    <option value="Descriptions">Descriptions</option>
-                </select>
-                <input type="text" name="q" placeholder="search ...">
-                <button><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-    <div class="container">
-        <!--Navigation-->
-        <div class="navigate">
-            <span><a href="">MyForum - Forums</a> >> <a href="">random subforum</a> >> <a href="">random topic</a></span>
-        </div>
+    </header>
 
-        <!--Topic Section-->
-        <div class="topic-container">
-            <!--Original thread-->
-            <div class="head">
-                <div class="authors">Author</div>
-                <div class="content">Topic: random topic (Read 1325 Times)</div>
+    <main class="container">
+        <article class="question-detail">
+            <h2>{{ topic.title }}</h2>
+            <div class="question-meta">
+                Asked by {{ topic.author.username }} on {{ topic.created_at|date:"M d, Y" }}
             </div>
+            <div class="question-content">
+                {{ topic.content }}
+            </div>
+            <div class="question-votes">
+                <form method="post" action="{% url 'vote_topic' topic.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="value" value="1">&#9650;</button>
+                    <div>{{ topic.votes_count|default:0 }}</div>
+                    <button type="submit" name="value" value="-1">&#9660;</button>
+                </form>
+            </div>
+        </article>
 
-            <div class="body">
-                <div class="authors">
-                    <div class="username"><a href="">Username</a></div>
-                    <div>Role</div>
-                    <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
-                    <div>Posts: <u>45</u></div>
-                    <div>Points: <u>4586</u></div>
+        <section class="answers">
+            <h3>{{ topic.posts.count }} Answers</h3>
+            {% for post in topic.posts.all %}
+            <div class="answer-item">
+                <div class="answer-votes">
+                    <form method="post" action="{% url 'vote_post' post.id %}">
+                        {% csrf_token %}
+                        <button type="submit" name="value" value="1">&#9650;</button>
+                        <div>{{ post.votes.count }}</div>
+                        <button type="submit" name="value" value="-1">&#9660;</button>
+                    </form>
                 </div>
-                <div class="content">
-                    Just a random content of a random topic.
-                    <br>To see how it looks like.
-                    <br><br>
-                    Nothing more and nothing less.
-                    <br>
-                    <hr>
-                    Regards username
-                    <br>
-                    <div class="comment">
-                        <button onclick="showComment()">Comment</button>
+                <div class="answer-content">
+                    {{ post.content }}
+                    <div class="answer-meta">
+                        Answered by {{ post.author.username }} on {{ post.created_at|date:"M d, Y" }}
                     </div>
                 </div>
             </div>
-        </div>
+            {% empty %}
+            <p>No answers yet.</p>
+            {% endfor %}
+        </section>
 
-        <!--Comment Area-->
-        <div class="comment-area hide" id="comment-area">
-            <textarea name="comment" id="" placeholder="comment here ... "></textarea>
-            <input type="submit" value="submit">
-        </div>
+        <section class="add-answer">
+            <h3>Your Answer</h3>
+            <form method="post" action="{% url 'add_answer' topic.id %}">
+                {% csrf_token %}
+                <textarea name="content" rows="6" required></textarea>
+                <button type="submit">Post Your Answer</button>
+            </form>
+        </section>
+    </main>
 
-        <!--Comments Section-->
-        <div class="comments-container">
-            <div class="body">
-                <div class="authors">
-                    <div class="username"><a href="">AnotherUser</a></div>
-                    <div>Role</div>
-                    <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
-                    <div>Posts: <u>455</u></div>
-                    <div>Points: <u>4586</u></div>
-                </div>
-                <div class="content">
-                    Just a comment of the above random topic.
-                    <br>To see how it looks like.
-                    <br><br>
-                    Nothing more and nothing less.
-                    <br>
-                    <br>
-                    <div class="comment">
-                        <button onclick="showReply()">Reply</button>
-                    </div>
-                </div>
-            </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Mini StackOverflow</p>
         </div>
-        <!--Reply Area-->
-        <div class="comment-area hide" id="reply-area">
-            <textarea name="reply" id="" placeholder="reply here ... "></textarea>
-            <input type="submit" value="submit">
-        </div>
-
-
-        <!--Another Comment With replies-->
-        <div class="comments-container">
-            <div class="body">
-                <div class="authors">
-                    <div class="username"><a href="">AnotherUser</a></div>
-                    <div>Role</div>
-                    <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
-                    <div>Posts: <u>455</u></div>
-                    <div>Points: <u>4586</u></div>
-                </div>
-                <div class="content">
-                    Just a comment of the above random topic.
-                    <br>To see how it looks like.
-                    <br><br>
-                    Nothing more and nothing less.
-                    <br>
-                    <br>
-                    <div class="comment">
-                        <button onclick="showReply()">Reply</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Reply Area-->
-        <div class="comment-area hide" id="reply-area">
-            <textarea name="reply" id="" placeholder="reply here ... "></textarea>
-            <input type="submit" value="submit">
-        </div>
-
-        
-
-    </div>
-    <script src="{% static 'forum/main.js' %}"></script>
+    </footer>
 </body>
 </html>
