@@ -5,6 +5,41 @@
     <meta charset="UTF-8">
     <title>{{ question.title }} - Mini StackOverflow</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .question-box, .answer-box {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .meta {
+            font-size: 12px;
+            color: #6a737c;
+            margin-top: 5px;
+        }
+        .answer-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin-top: 10px;
+        }
+        .answer-form button {
+            margin-top: 10px;
+            background-color: #f48024;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .answer-form button:hover {
+            background-color: #d4691e;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -19,19 +54,34 @@
     </header>
 
     <main class="container">
-        <h2>{{ question.title }}</h2>
-        <p>{{ question.content }}</p>
-        <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
+        <div class="question-box">
+            <h2>{{ question.title }}</h2>
+            <p>{{ question.content }}</p>
+            <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
+        </div>
 
         <h3>Answers</h3>
         {% for answer in answers %}
-            <div class="answer-item">
+            <div class="answer-box">
                 <p>{{ answer.content }}</p>
                 <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
             </div>
         {% empty %}
             <p>No answers yet.</p>
         {% endfor %}
+
+        {% if request.user.is_authenticated %}
+        <div class="answer-form">
+            <h3>Your Answer</h3>
+            <form method="post">
+                {% csrf_token %}
+                <textarea name="content" rows="4" placeholder="Enter your answer..."></textarea>
+                <button type="submit">Post Answer</button>
+            </form>
+        </div>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to post an answer.</p>
+        {% endif %}
     </main>
 
     <footer>
