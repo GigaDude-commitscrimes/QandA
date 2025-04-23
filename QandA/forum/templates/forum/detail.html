@@ -3,8 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ topic.title }} - Mini StackOverflow</title>
+    <title>{{ question.title }} - Mini StackOverflow</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -14,61 +13,25 @@
             <nav>
                 <a href="/">All Questions</a>
                 <a href="{% url 'ask_question' %}">Ask Question</a>
+                <a href="{% url 'profile' %}">Profile</a>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        <article class="question-detail">
-            <h2>{{ topic.title }}</h2>
-            <div class="question-meta">
-                Asked by {{ topic.author.username }} on {{ topic.created_at|date:"M d, Y" }}
-            </div>
-            <div class="question-content">
-                {{ topic.content }}
-            </div>
-            <div class="question-votes">
-                <form method="post" action="{% url 'vote_topic' topic.id %}">
-                    {% csrf_token %}
-                    <button type="submit" name="value" value="1">&#9650;</button>
-                    <div>{{ topic.votes_count|default:0 }}</div>
-                    <button type="submit" name="value" value="-1">&#9660;</button>
-                </form>
-            </div>
-        </article>
+        <h2>{{ question.title }}</h2>
+        <p>{{ question.content }}</p>
+        <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
 
-        <section class="answers">
-            <h3>{{ topic.posts.count }} Answers</h3>
-            {% for post in topic.posts.all %}
+        <h3>Answers</h3>
+        {% for answer in answers %}
             <div class="answer-item">
-                <div class="answer-votes">
-                    <form method="post" action="{% url 'vote_post' post.id %}">
-                        {% csrf_token %}
-                        <button type="submit" name="value" value="1">&#9650;</button>
-                        <div>{{ post.votes.count }}</div>
-                        <button type="submit" name="value" value="-1">&#9660;</button>
-                    </form>
-                </div>
-                <div class="answer-content">
-                    {{ post.content }}
-                    <div class="answer-meta">
-                        Answered by {{ post.author.username }} on {{ post.created_at|date:"M d, Y" }}
-                    </div>
-                </div>
+                <p>{{ answer.content }}</p>
+                <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
             </div>
-            {% empty %}
+        {% empty %}
             <p>No answers yet.</p>
-            {% endfor %}
-        </section>
-
-        <section class="add-answer">
-            <h3>Your Answer</h3>
-            <form method="post" action="{% url 'add_answer' topic.id %}">
-                {% csrf_token %}
-                <textarea name="content" rows="6" required></textarea>
-                <button type="submit">Post Your Answer</button>
-            </form>
-        </section>
+        {% endfor %}
     </main>
 
     <footer>

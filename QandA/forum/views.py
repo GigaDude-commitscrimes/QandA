@@ -3,6 +3,7 @@ from .models import Question
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from .models import Question, Answer
 
 def index(request):
     questions = Question.objects.all().order_by('-created_at')
@@ -59,3 +60,11 @@ def register(request):
 def index(request):
     questions = Question.objects.all().order_by('-created_at')
     return render(request, 'forum/forums.html', {'questions': questions})
+
+def question_detail(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    answers = Answer.objects.filter(question=question)  # если есть Answer модель
+    return render(request, 'forum/detail.html', {
+        'question': question,
+        'answers': answers,
+    })
