@@ -132,3 +132,43 @@ footer {
 .question-votes button:hover, .answer-votes button:hover {
     color: #f48024;
 }
+
+.vote-controls {
+    float: right;
+    text-align: center;
+    font-size: 18px;
+}
+.vote-controls a {
+    text-decoration: none;
+    color: #888;
+}
+.vote-controls a:hover {
+    color: #f48024;
+}
+
+.tags {
+    margin-top: 5px;
+}
+.tag {
+    display: inline-block;
+    background-color: #e1ecf4;
+    color: #39739d;
+    padding: 2px 6px;
+    margin-right: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #e1ecf4;
+    color: #39739d;
+    padding: 3px 8px;
+    margin-right: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}

@@ -126,3 +126,5 @@ import os
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'forum/static'),
 ]
+
+LOGIN_REDIRECT_URL = 'profile'

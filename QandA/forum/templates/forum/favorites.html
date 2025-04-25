@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite Questions - QandA</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="/">QandA</a></h1>
+            <nav>
+                <a href="/">All Questions</a>
+                <a href="{% url 'ask_question' %}">Ask Question</a>
+                <a href="{% url 'profile' %}">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>My Favorite Questions</h2>
+        {% for question in favorites %}
+            <div class="question-item">
+                <div class="summary">
+                    <a href="{% url 'question_detail' question.id %}">{{ question.title }}</a>
+                    <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
+                </div>
+            </div>
+        {% empty %}
+            <p>You haven't added any favorite questions yet.</p>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 QandA</p>
+        </div>
+    </footer>
+</body>
+</html>

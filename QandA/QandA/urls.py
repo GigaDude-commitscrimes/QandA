@@ -26,4 +26,8 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('accounts/register/', views.register, name='register'),
     path('questions/<int:pk>/', views.question_detail, name='question_detail'),
+    path('vote/<int:answer_id>/<str:vote_type>/', views.vote_answer, name='vote_answer'),
+    path('favorites/', views.favorite_questions, name='favorite_questions'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='forum/login.html', next_page='profile'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
 ]

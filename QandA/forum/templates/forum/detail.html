@@ -5,11 +5,67 @@
     <meta charset="UTF-8">
     <title>{{ question.title }} - Mini StackOverflow</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .question-box, .answer-box {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .answer-content {
+            flex: 1;
+        }
+        .meta {
+            font-size: 12px;
+            color: #6a737c;
+            margin-top: 5px;
+        }
+        .answer-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin-top: 10px;
+        }
+        .answer-form button {
+            margin-top: 10px;
+            background-color: #f48024;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .answer-form button:hover {
+            background-color: #d4691e;
+        }
+        .vote-controls {
+            text-align: center;
+            font-size: 18px;
+            min-width: 40px;
+        }
+        .vote-controls a {
+            display: block;
+            text-decoration: none;
+            color: #888;
+            margin: 5px 0;
+        }
+        .vote-controls a:hover {
+            color: #f48024;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1><a href="/">Mini StackOverflow</a></h1>
+            <h1><a href="/">QandA</a></h1>
             <nav>
                 <a href="/">All Questions</a>
                 <a href="{% url 'ask_question' %}">Ask Question</a>
@@ -19,24 +75,71 @@
     </header>
 
     <main class="container">
-        <h2>{{ question.title }}</h2>
-        <p>{{ question.content }}</p>
-        <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
+        <div class="question-box">
+            <div class="answer-content">
+                <h2>{{ question.title }}</h2>
+                <p>{{ question.content }}</p>
+                <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
+                {% if question.tags.all %}
+                    <div class="tags">
+                        {% for tag in question.tags.all %}
+                            <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if request.user == question.author %}
+                    <a href="{% url 'edit_question' question.id %}">Edit</a>
+                    <a href="{% url 'delete_question' question.id %}">Delete</a>
+                {% endif %}
+                <a href="{% url 'toggle_favorite' question.id %}">
+                    {% if request.user in question.favorites.all %}Remove from favorites{% else %}Add to favorites{% endif %}
+                </a>
+            </div>
+            <div class="vote-controls">
+                <a href="{% url 'vote_question' question.id 'up' %}">&#9650;</a>
+                {{ question.vote_sum|default:0 }}
+                <a href="{% url 'vote_question' question.id 'down' %}">&#9660;</a>
+            </div>
+        </div>
 
         <h3>Answers</h3>
         {% for answer in answers %}
-            <div class="answer-item">
-                <p>{{ answer.content }}</p>
-                <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
+            <div class="answer-box">
+                <div class="answer-content">
+                    <p>{{ answer.content }}</p>
+                    <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
+                    {% if request.user == answer.author %}
+                        <a href="{% url 'edit_answer' answer.id %}">Edit</a>
+                        <a href="{% url 'delete_answer' answer.id %}">Delete</a>
+                    {% endif %}
+                </div>
+                <div class="vote-controls">
+                    <a href="{% url 'vote_answer' answer.id 'up' %}">&#9650;</a>
+                    {{ answer.vote_sum|default:0 }}
+                    <a href="{% url 'vote_answer' answer.id 'down' %}">&#9660;</a>
+                </div>
             </div>
         {% empty %}
             <p>No answers yet.</p>
         {% endfor %}
+
+        {% if request.user.is_authenticated %}
+        <div class="answer-form">
+            <h3>Your Answer</h3>
+            <form method="post">
+                {% csrf_token %}
+                <textarea name="content" rows="4" placeholder="Enter your answer..."></textarea>
+                <button type="submit">Post Answer</button>
+            </form>
+        </div>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to post an answer.</p>
+        {% endif %}
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Mini StackOverflow</p>
+            <p>&copy; 2025 QandA</p>
         </div>
     </footer>
 </body>
