@@ -121,8 +121,7 @@
                     {{ answer.vote_sum|default:0 }}
                     <a href="{% url 'vote_answer' answer.id 'down' %}">&#9660;</a>
                 </div>
-                <p>{{ answer.content }}</p>
-                <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
+                
             </div>
         {% empty %}
             <p>No answers yet.</p>
