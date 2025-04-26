@@ -100,9 +100,6 @@
                 {{ question.vote_sum|default:0 }}
                 <a href="{% url 'vote_question' question.id 'down' %}">&#9660;</a>
             </div>
-            <h2>{{ question.title }}</h2>
-            <p>{{ question.content }}</p>
-            <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
         </div>
 
         <h3>Answers</h3>
@@ -121,7 +118,6 @@
                     {{ answer.vote_sum|default:0 }}
                     <a href="{% url 'vote_answer' answer.id 'down' %}">&#9660;</a>
                 </div>
-                
             </div>
         {% empty %}
             <p>No answers yet.</p>
