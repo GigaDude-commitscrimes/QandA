@@ -13,10 +13,11 @@
             padding: 15px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: relative;
+        }
+        .question-content-wrapper, .answer-content-wrapper {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
         .answer-content {
             flex: 1;
@@ -50,6 +51,7 @@
             text-align: center;
             font-size: 18px;
             min-width: 40px;
+            margin-left: 15px;
         }
         .vote-controls a {
             display: block;
@@ -60,26 +62,37 @@
         .vote-controls a:hover {
             color: #f48024;
         }
+        .tag {
+            display: inline-block;
+            background-color: #e1ecf4;
+            color: #39739d;
+            padding: 2px 6px;
+            margin: 2px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1><a href="/">QandA</a></h1>
-            <nav>
-                <a href="/">All Questions</a>
-                <a href="{% url 'ask_question' %}">Ask Question</a>
-                <a href="{% url 'profile' %}">Profile</a>
-            </nav>
-        </div>
-    </header>
+<header>
+    <div class="container">
+        <h1><a href="/">QandA</a></h1>
+        <nav>
+            <a href="/">All Questions</a>
+            <a href="{% url 'ask_question' %}">Ask Question</a>
+            <a href="{% url 'profile' %}">Profile</a>
+        </nav>
+    </div>
+</header>
 
-    <main class="container">
-        <div class="question-box">
+<main class="container">
+    <div class="question-box">
+        <div class="question-content-wrapper">
             <div class="answer-content">
                 <h2>{{ question.title }}</h2>
                 <p>{{ question.content }}</p>
                 <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
+
                 {% if question.tags.all %}
                     <div class="tags">
                         {% for tag in question.tags.all %}
@@ -87,27 +100,33 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+
                 {% if request.user == question.author %}
                     <a href="{% url 'edit_question' question.id %}">Edit</a>
                     <a href="{% url 'delete_question' question.id %}">Delete</a>
                 {% endif %}
+
                 <a href="{% url 'toggle_favorite' question.id %}">
-                    {% if request.user in question.favorites.all %}Remove from favorites{% else %}Add to favorites{% endif %}
+                    {% if request.user in question.favorites.all %}
+                        Remove from favorites
+                    {% else %}
+                        Add to favorites
+                    {% endif %}
                 </a>
             </div>
+
             <div class="vote-controls">
                 <a href="{% url 'vote_question' question.id 'up' %}">&#9650;</a>
-                {{ question.vote_sum|default:0 }}
+                <div>{{ question.vote_sum|default:0 }}</div>
                 <a href="{% url 'vote_question' question.id 'down' %}">&#9660;</a>
             </div>
-            <h2>{{ question.title }}</h2>
-            <p>{{ question.content }}</p>
-            <div class="meta">Asked by {{ question.author.username }} on {{ question.created_at|date:"M d, Y" }}</div>
         </div>
+    </div>
 
-        <h3>Answers</h3>
-        {% for answer in answers %}
-            <div class="answer-box">
+    <h3>Answers</h3>
+    {% for answer in answers %}
+        <div class="answer-box">
+            <div class="answer-content-wrapper">
                 <div class="answer-content">
                     <p>{{ answer.content }}</p>
                     <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
@@ -118,17 +137,16 @@
                 </div>
                 <div class="vote-controls">
                     <a href="{% url 'vote_answer' answer.id 'up' %}">&#9650;</a>
-                    {{ answer.vote_sum|default:0 }}
+                    <div>{{ answer.vote_sum|default:0 }}</div>
                     <a href="{% url 'vote_answer' answer.id 'down' %}">&#9660;</a>
                 </div>
-                <p>{{ answer.content }}</p>
-                <div class="meta">Answered by {{ answer.author.username }} on {{ answer.created_at|date:"M d, Y" }}</div>
             </div>
-        {% empty %}
-            <p>No answers yet.</p>
-        {% endfor %}
+        </div>
+    {% empty %}
+        <p>No answers yet.</p>
+    {% endfor %}
 
-        {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated %}
         <div class="answer-form">
             <h3>Your Answer</h3>
             <form method="post">
@@ -137,15 +155,15 @@
                 <button type="submit">Post Answer</button>
             </form>
         </div>
-        {% else %}
-            <p><a href="{% url 'login' %}">Login</a> to post an answer.</p>
-        {% endif %}
-    </main>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to post an answer.</p>
+    {% endif %}
+</main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 QandA</p>
-        </div>
-    </footer>
+<footer>
+    <div class="container">
+        <p>&copy; 2025 QandA</p>
+    </div>
+</footer>
 </body>
 </html>

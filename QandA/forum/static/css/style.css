@@ -172,3 +172,17 @@ footer {
     border-radius: 3px;
     font-size: 12px;
 }
+.vote-controls {
+    text-align: center;
+    font-size: 18px;
+    min-width: 40px;
+}
+
+.question-box {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
